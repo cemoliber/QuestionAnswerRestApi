@@ -4,17 +4,19 @@ const asyncErrorWrapper = require("express-async-handler");
 
 const register = asyncErrorWrapper(async (req,res,next) => {
     //POST DATA
-    const name = "Berna Çınar";
-    const email = "b.cinarr@icloud.com";
-    const password = "123456";
+    const{name,email,password,role} = req.body;
 
-   
     //async await
     const user = await User.create({
-    name,
-    email,
-    password
+        name,
+        email,
+        password,
+        role
     });
+
+    const token = user.generateJwtFromUser();
+    console.log(token);
+
 
     res
     .status(200)
